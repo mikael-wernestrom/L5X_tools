@@ -40,4 +40,4 @@ htmlcov/
 Thumbs.db
 
 # Generated L5X output
-**/sample/output/
+output/
