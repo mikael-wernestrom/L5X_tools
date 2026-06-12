@@ -9,12 +9,11 @@
       <Tag Name="{{ tag_prefix }}_Level" TagType="Base" DataType="REAL">
         <Description>Tank {{ tag_prefix }} level measurement</Description>
       </Tag>
-      <Tag Name="{{ tag_prefix }}_FillValve" TagType="Base" DataType="BOOL">
-        <Description>Tank {{ tag_prefix }} fill valve command</Description>
+{% for valve in valves %}
+      <Tag Name="{{ tag_prefix }}_{{ valve.tag }}" TagType="Base" DataType="BOOL">
+        <Description>{{ valve.description }} ({{ valve.size }}, {{ valve.type }})</Description>
       </Tag>
-      <Tag Name="{{ tag_prefix }}_DrainValve" TagType="Base" DataType="BOOL">
-        <Description>Tank {{ tag_prefix }} drain valve command</Description>
-      </Tag>
+{% endfor %}
 {% if has_agitator %}
       <Tag Name="{{ tag_prefix }}_AgitatorRun" TagType="Base" DataType="BOOL">
         <Description>Tank {{ tag_prefix }} agitator run command</Description>
@@ -22,6 +21,13 @@
       <Tag Name="{{ tag_prefix }}_AgitatorSpeed" TagType="Base" DataType="REAL">
         <Description>Tank {{ tag_prefix }} agitator speed setpoint (RPM)</Description>
       </Tag>
+{% endif %}
+{% if motors is defined %}
+{% for motor in motors %}
+      <Tag Name="{{ tag_prefix }}_{{ motor.tag }}_Run" TagType="Base" DataType="BOOL">
+        <Description>{{ motor.description }} ({{ motor.kw }}kW) run command</Description>
+      </Tag>
+{% endfor %}
 {% endif %}
     </Tags>
 
