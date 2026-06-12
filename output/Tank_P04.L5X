@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="32.00"
+    TargetName="P04_Controller" TargetType="Controller">
+
+  <Controller Name="P04_Controller" ProcessorType="1756-L85E">
+    <Description>Color Tank 4 - Blue</Description>
+
+    <Tags>
+      <Tag Name="P04_Level" TagType="Base" DataType="REAL">
+        <Description>Tank P04 level measurement</Description>
+      </Tag>
+      <Tag Name="P04_FillValve" TagType="Base" DataType="BOOL">
+        <Description>Tank P04 fill valve command</Description>
+      </Tag>
+      <Tag Name="P04_DrainValve" TagType="Base" DataType="BOOL">
+        <Description>Tank P04 drain valve command</Description>
+      </Tag>
+
+      <Tag Name="P04_AgitatorRun" TagType="Base" DataType="BOOL">
+        <Description>Tank P04 agitator run command</Description>
+      </Tag>
+      <Tag Name="P04_AgitatorSpeed" TagType="Base" DataType="REAL">
+        <Description>Tank P04 agitator speed setpoint (RPM)</Description>
+      </Tag>
+
+    </Tags>
+
+  </Controller>
+</RSLogix5000Content>

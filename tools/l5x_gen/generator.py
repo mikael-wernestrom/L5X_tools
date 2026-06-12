@@ -5,13 +5,15 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 
 def generate(config_path: Path) -> None:
+    base = config_path.parent.resolve()
+
     with open(config_path, encoding="utf-8") as f:
         entries = yaml.safe_load(f)
 
     for entry in entries:
         entry = dict(entry)
-        input_file = Path(entry.pop("input_file"))
-        output_file = Path(entry.pop("output_file"))
+        input_file = (base / entry.pop("input_file")).resolve()
+        output_file = (base / entry.pop("output_file")).resolve()
 
         env = Environment(
             loader=FileSystemLoader(str(input_file.parent)),

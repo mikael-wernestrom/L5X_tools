@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="32.00"
+    TargetName="P05_Controller" TargetType="Controller">
+
+  <Controller Name="P05_Controller" ProcessorType="1756-L85E">
+    <Description>Color Tank 5 - Red</Description>
+
+    <Tags>
+      <Tag Name="P05_Level" TagType="Base" DataType="REAL">
+        <Description>Tank P05 level measurement</Description>
+      </Tag>
+      <Tag Name="P05_FillValve" TagType="Base" DataType="BOOL">
+        <Description>Tank P05 fill valve command</Description>
+      </Tag>
+      <Tag Name="P05_DrainValve" TagType="Base" DataType="BOOL">
+        <Description>Tank P05 drain valve command</Description>
+      </Tag>
+
+    </Tags>
+
+  </Controller>
+</RSLogix5000Content>
