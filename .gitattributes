@@ -1,0 +1,22 @@
+# Normalize all text files to LF on commit
+* text=auto eol=lf
+
+# Explicit text files
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.L5X text eol=lf
+*.json text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+
+# Binary files — never touch line endings
+*.xls binary
+*.xlsx binary
+*.png binary
+*.jpg binary
+*.ico binary
