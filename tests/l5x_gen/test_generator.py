@@ -218,6 +218,29 @@ def test_optional_list_absent_when_not_defined(tmp_path, template_dir):
     assert (tmp_path / "out.L5X").read_text(encoding="utf-8") == "NO_MOTORS"
 
 
+def test_numeric_types_preserved(tmp_path):
+    csv_file = tmp_path / "motors.csv"
+    write_csv(csv_file, [{"tag": "AGT_101", "kw": "7.5", "poles": "4"}])
+
+    result = load_list_query(str(csv_file), tmp_path)
+
+    assert isinstance(result[0]["kw"], float)
+    assert isinstance(result[0]["poles"], int)
+
+
+def test_where_on_numeric_column(tmp_path):
+    csv_file = tmp_path / "motors.csv"
+    write_csv(csv_file, [
+        {"tag": "AGT_101", "kw": "7.5"},
+        {"tag": "AGT_102", "kw": "11.0"},
+    ])
+
+    result = load_list_query(f"{csv_file} | where: kw=7.5", tmp_path)
+
+    assert len(result) == 1
+    assert result[0]["tag"] == "AGT_101"
+
+
 def test_unknown_operation_raises(tmp_path, valves_csv):
     with pytest.raises(ValueError, match="Unknown query operation"):
         load_list_query(f"{valves_csv} | frobnicate: foo", tmp_path)
@@ -235,4 +258,4 @@ def test_xlsx_loaded_as_list(tmp_path):
 
     result = load_list_query(str(xlsx_file), tmp_path)
 
-    assert result == [{"tag": "AGT_101", "description": "Agitator Motor", "kw": "7.5"}]
+    assert result == [{"tag": "AGT_101", "description": "Agitator Motor", "kw": 7.5}]
