@@ -6,11 +6,14 @@ build-backend = "setuptools.build_meta"
 name = "l5x-tools"
 version = "0.1.0"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["jinja2>=3.1", "pyyaml>=6.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["common*", "tools*", "scripts*"]
+
+[project.scripts]
+l5x-gen = "tools.l5x_gen.cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
