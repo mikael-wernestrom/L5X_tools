@@ -3,19 +3,25 @@
   tag_prefix: P04
   tank_descr: Color Tank 4 - Blue
   has_agitator: true
-  valves: list_data/valves.csv
-  motors: list_data/motors.csv
+  valves:   "list_data/valves.csv | select: valve_tag, valve_descr, routine_name | distinct | sort: routine_name"
+  routines: "list_data/valves.csv | select: routine_name, udt_type | distinct | sort: routine_name"
+  inlets:   "list_data/valves.csv | where: valve_type=inlet | select: valve_tag, valve_descr | sort: valve_tag"
+  motors:   list_data/motors.csv
 
 - output_file: output/Tank_P05.L5X
   input_file: input/Tank_Pxx.L5X
   tag_prefix: P05
   tank_descr: Color Tank 5 - Red
   has_agitator: false
-  valves: list_data/valves.csv
+  valves:   "list_data/valves.csv | select: valve_tag, valve_descr, routine_name | distinct | sort: routine_name"
+  routines: "list_data/valves.csv | select: routine_name, udt_type | distinct | sort: routine_name"
+  inlets:   "list_data/valves.csv | where: valve_type=inlet | select: valve_tag, valve_descr | sort: valve_tag"
 
 - output_file: output/Tank_P06.L5X
   input_file: input/Tank_Pxx.L5X
   tag_prefix: P06
   tank_descr: Color Tank 6 - Green
   has_agitator: false
-  valves: list_data/valves.csv
+  valves:   "list_data/valves.csv | select: valve_tag, valve_descr, routine_name | distinct | sort: routine_name"
+  routines: "list_data/valves.csv | select: routine_name, udt_type | distinct | sort: routine_name"
+  inlets:   "list_data/valves.csv | where: valve_type=inlet | select: valve_tag, valve_descr | sort: valve_tag"

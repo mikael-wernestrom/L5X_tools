@@ -3,7 +3,7 @@ from pathlib import Path
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-from .loader import is_list_file, load_list_file
+from .loader import is_list_query, load_list_query
 
 
 def generate(config_path: Path) -> None:
@@ -19,11 +19,8 @@ def generate(config_path: Path) -> None:
 
         context = {}
         for key, value in entry.items():
-            if is_list_file(value):
-                file_path = Path(value)
-                if not file_path.is_absolute():
-                    file_path = (base / value).resolve()
-                context[key] = load_list_file(file_path)
+            if is_list_query(value):
+                context[key] = load_list_query(value, base)
             else:
                 context[key] = value
 

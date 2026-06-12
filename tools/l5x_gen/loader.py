@@ -1,49 +1,56 @@
-import csv
 from pathlib import Path
 
 LIST_EXTENSIONS = {".csv", ".xls", ".xlsx"}
 
 
-def is_list_file(value: object) -> bool:
-    return isinstance(value, str) and Path(value).suffix.lower() in LIST_EXTENSIONS
+def is_list_query(value: object) -> bool:
+    if not isinstance(value, str):
+        return False
+    first_segment = value.split("|")[0].strip()
+    return Path(first_segment).suffix.lower() in LIST_EXTENSIONS
 
 
-def load_list_file(path: Path) -> list[dict]:
+def load_list_query(value: str, base: Path) -> list[dict]:
+    import pandas as pd
+
+    segments = [s.strip() for s in value.split("|")]
+    file_str = segments[0]
+    ops = segments[1:]
+
+    file_path = Path(file_str)
+    if not file_path.is_absolute():
+        file_path = (base / file_str).resolve()
+
+    df = _load_file(file_path)
+    df = _apply_operations(df, ops)
+    return df.to_dict("records")
+
+
+def _load_file(path: Path):
+    import pandas as pd
+
     suffix = path.suffix.lower()
     if suffix == ".csv":
-        return _load_csv(path)
-    if suffix == ".xlsx":
-        return _load_xlsx(path)
-    if suffix == ".xls":
-        return _load_xls(path)
-    raise ValueError(f"Unsupported list file type: {suffix}")
+        return pd.read_csv(path, dtype=str)
+    if suffix in (".xlsx", ".xls"):
+        return pd.read_excel(path, dtype=str)
+    raise ValueError(f"Unsupported file type: {suffix}")
 
 
-def _load_csv(path: Path) -> list[dict]:
-    with open(path, encoding="utf-8", newline="") as f:
-        return list(csv.DictReader(f))
-
-
-def _load_xlsx(path: Path) -> list[dict]:
-    import openpyxl
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
-    ws = wb.active
-    rows = list(ws.iter_rows(values_only=True))
-    wb.close()
-    if not rows:
-        return []
-    headers = [str(h) for h in rows[0]]
-    return [dict(zip(headers, row)) for row in rows[1:]]
-
-
-def _load_xls(path: Path) -> list[dict]:
-    import xlrd
-    wb = xlrd.open_workbook(str(path))
-    ws = wb.sheet_by_index(0)
-    if ws.nrows == 0:
-        return []
-    headers = [str(ws.cell_value(0, c)) for c in range(ws.ncols)]
-    return [
-        dict(zip(headers, [ws.cell_value(r, c) for c in range(ws.ncols)]))
-        for r in range(1, ws.nrows)
-    ]
+def _apply_operations(df, ops: list[str]):
+    for op in ops:
+        if op == "distinct":
+            df = df.drop_duplicates()
+        elif op.startswith("select:"):
+            cols = [c.strip() for c in op[7:].split(",")]
+            df = df[cols]
+        elif op.startswith("sort:"):
+            cols = [c.strip() for c in op[5:].split(",")]
+            df = df.sort_values(cols).reset_index(drop=True)
+        elif op.startswith("where:"):
+            expr = op[6:].strip()
+            col, val = expr.split("=", 1)
+            df = df[df[col.strip()] == val.strip()]
+        else:
+            raise ValueError(f"Unknown query operation: '{op}'")
+    return df

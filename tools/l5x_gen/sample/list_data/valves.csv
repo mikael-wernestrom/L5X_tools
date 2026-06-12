@@ -1,4 +1,5 @@
-tag,description,size,type
-FV_101,Feed Valve,2in,Ball
-DV_101,Drain Valve,4in,Butterfly
-SV_101,Sample Valve,0.5in,Needle
+valve_tag,valve_descr,routine_name,valve_type,udt_type
+FV_101,Feed Valve 1,Fill,inlet,VALVE_STD
+FV_102,Feed Valve 2,Fill,inlet,VALVE_STD
+DV_101,Drain Valve,Drain,outlet,VALVE_STD
+SV_101,Sample Valve,Sample,outlet,VALVE_SAMPLE

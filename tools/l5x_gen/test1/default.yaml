@@ -1,0 +1,9 @@
+- output_file: output/Ring1_MasterA_Slave1_Routine_FBD.L5X
+  input_file: input/Ring1_MasterA_Slave1_Routine_FBD.L5X
+  io_list: list_data/io_list.xlsx
+  plc: 'DH1101'
+  routine: 'Ring1_MasterA_Slave1'
+  ring: 1
+  master: 'A'
+  slave: 1
+ 
