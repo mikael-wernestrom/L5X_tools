@@ -31,6 +31,9 @@ def generate(config_path: Path) -> None:
             loader=FileSystemLoader(str(input_file.parent)),
             undefined=StrictUndefined,
             keep_trailing_newline=True,
+            autoescape=False,       # L5X is not HTML; template author controls XML structure
+            trim_blocks=True,       # remove newline after {% %} tags to avoid blank lines
+            lstrip_blocks=True,     # strip leading whitespace before {% %} tags
         )
         template = env.get_template(input_file.name)
         rendered = template.render(**context)
