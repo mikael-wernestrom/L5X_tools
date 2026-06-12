@@ -1,0 +1,5 @@
+- output_file: output/Tank_P04.L5X
+  input_file: input/Tank_Pxx.L5X
+  tag_prefix: P04
+  tank_descr: Color Tank 4 - Blue
+  has_agitator: true

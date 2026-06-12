@@ -9,3 +9,9 @@
   tag_prefix: P05
   tank_descr: Color Tank 5 - Red
   has_agitator: false
+
+- output_file: output/Tank_P06.L5X
+  input_file: input/Tank_Pxx.L5X
+  tag_prefix: P06
+  tank_descr: Color Tank 6 - Green
+  has_agitator: false
